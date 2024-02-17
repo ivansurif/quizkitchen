@@ -14,6 +14,7 @@ type MyFormData = {
     text: string;
     isReal: boolean;
     explanation: string;
+    explanation_img_uri: string | undefined;
   };
   answers: {
     value: string;
@@ -32,6 +33,7 @@ const MyForm = () => {
       text: "",
       isReal: false,
       explanation: "",
+      explanation_img_uri: undefined
     },
     answers: [
       {
@@ -94,11 +96,12 @@ const MyForm = () => {
         setFormData((prevState: any) => {
           // Check if parentKey is a key in prevState
           if (parentKey in prevState) {
+            const newValue = name === "question.explanation_img_uri" && value === '' ? undefined : value;
             return {
               ...prevState,
               [parentKey]: {
                 ...(prevState[parentKey] as any),
-                [childKey]: value,
+                [childKey]: newValue,
               },
             };
           }
@@ -243,6 +246,13 @@ const MyForm = () => {
             as="textarea"
             name="question.explanation"
             value={formData.question.explanation}
+            onChange={handleFormChange}
+          />
+          <Form.Label>Explanation URI</Form.Label>
+          <Form.Control
+            type="text"
+            name="question.explanation_img_uri"
+            value={formData.question.explanation_img_uri}
             onChange={handleFormChange}
           />
         </Form.Group>
