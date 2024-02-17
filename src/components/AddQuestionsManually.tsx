@@ -14,7 +14,7 @@ type MyFormData = {
     text: string;
     isReal: boolean;
     explanation: string;
-    explanation_img_uri: string | undefined;
+    explanation_img_uri: string;
   };
   answers: {
     value: string;
@@ -33,7 +33,7 @@ const MyForm = () => {
       text: "",
       isReal: false,
       explanation: "",
-      explanation_img_uri: undefined
+      explanation_img_uri: ""
     },
     answers: [
       {
@@ -96,15 +96,17 @@ const MyForm = () => {
         setFormData((prevState: any) => {
           // Check if parentKey is a key in prevState
           if (parentKey in prevState) {
-            const newValue = name === "question.explanation_img_uri" && value === '' ? undefined : value;
+            // const newValue = name === "question.explanation_img_uri" && value === '' ? null : value;
+            // console.log(newValue);
             return {
               ...prevState,
               [parentKey]: {
                 ...(prevState[parentKey] as any),
-                [childKey]: newValue,
+                [childKey]: value,
               },
             };
           }
+          console.log(prevState);
           return prevState;
         });
       } else {
@@ -119,7 +121,7 @@ const MyForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    console.log(formData);
     // Send formData to the API
     try {
       const response = await axios.post(
